@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="agriculture_plantations_tree" model="ir.ui.view">
+        <field name="name">agri.plantation.tree</field>
+        <field name="model">agri.plantation</field>
+        <field name="arch" type="xml">
+            <tree string="Plantations">
+                <field name="name"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+            </tree>
+        </field>
+     </record>
+
+    <!--form view of the patient model-->
+    <record id="agriculture_plantations_form" model="ir.ui.view">
+        <field name="name">agri.plantation.form</field>
+        <field name="model">agri.plantation</field>
+        <field name="arch" type="xml">
+            <form string="Plantations">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                        </group>
+                        <group>
+                            <field name="state_id"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <separator string="Farmers"/>
+                                <field name="farmer_ids" colspan="4" nolabel="1"
+                                       widget="one2many_list" context="{'default_is_farmer': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="comment"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    
+    <record id="agriculture_plantations_search" model="ir.ui.view">
+        <field name="name">agri.plantation.search</field>
+        <field name="model">agri.plantation</field>
+        <field name="arch" type="xml">
+            <search string="Search Plantations">
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state_id" context="{'group_by':'state_id'}"/>
+                    <filter string="Country" name="country_id" context="{'group_by':'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record id="action_agriculture_plantations" model="ir.actions.act_window">
+        <field name="name">Plantations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">agri.plantation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create your First Plantations !
+          </p>
+        </field>
+    </record>
+
+    <!--creating menus-->
+    <menuitem id="agriculture_root" name="Agriculture"
+              web_icon="vertical_agriculture,static/description/icon.png"/>
+    <menuitem id="agriculture_plantations" name="Plantations" parent="agriculture_root"
+              action="action_agriculture_plantations" sequence="10"/>
+
+</odoo>
