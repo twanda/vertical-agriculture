@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="agriculture_plantations_geoengine" model="ir.ui.view">
+        <field name="name">agri.plantation.geoengine</field>
+        <field name="model">agri.plantation</field>
+        <field name="arch" type="xml">
+              <geoengine version="7.0">
+                  <field name="the_geom"/>
+              </geoengine>
+        </field>
+     </record>
+
     <record id="agriculture_plantations_tree" model="ir.ui.view">
         <field name="name">agri.plantation.tree</field>
         <field name="model">agri.plantation</field>
@@ -15,6 +25,7 @@
             </tree>
         </field>
      </record>
+
 
     <!--form view of the patient model-->
     <record id="agriculture_plantations_form" model="ir.ui.view">
@@ -43,13 +54,21 @@
                             <field name="country_id"/>
                         </group>
                     </group>
-                    <group>
-                        <group>
-                            <separator string="Farmers"/>
-                                <field name="farmer_ids" colspan="4" nolabel="1"
-                                       widget="one2many_list" context="{'default_is_farmer': True}"/>
-                        </group>
+                    <notebook>
+                        <page string="Geometry">
+                            <field name="the_geom" widget="geo_edit_map"/>
+                        </page>
+                        <page>
+                            <group>
+                                <group>
+                                    <separator string="Farmers"/>
+                                        <field name="farmer_ids" colspan="4" nolabel="1"
+                                               widget="one2many_list" context="{'default_is_farmer': True}"/>
+                                </group>
                     </group>
+                        </page>
+                    </notebook>
+
                     <group>
                         <field name="comment"/>
                     </group>
@@ -84,7 +103,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">agri.plantation</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,geoengine</field>
         <field name="context">{}</field>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">

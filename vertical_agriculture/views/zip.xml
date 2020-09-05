@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="geoengine_vertical_agriculture" model="geoengine.raster.layer">
+        <field name="raster_type">osm</field>
+        <field name="name">Plantation</field>
+        <field name="view_id" ref="vertical_agriculture.agriculture_plantations_form"/>
+        <field eval="1" name="overlay"/>
+    </record>
+
+</odoo>

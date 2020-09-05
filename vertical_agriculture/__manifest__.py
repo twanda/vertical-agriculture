@@ -7,11 +7,12 @@
     'description': """""",
     'maintainer': '',
     'support': '',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'base_geoengine'],
     'data': [
         'security/ir.model.access.csv',
         'views/plantation.xml',
         'views/partner.xml',
+        'views/zip.xml',
     ],
     'website': '',
     'images': [],

@@ -16,6 +16,7 @@ class AgriculturePlantation(models.Model):
                                domain="[('country_id', '=?', country_id)]")
     country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
     comment = fields.Text(string='Notes')
+    the_geom = fields.GeoMultiPolygon('NPA Shape')
     farmer_ids = fields.Many2many('res.partner', 'farmer_plantation_rel', 'plant_id',
                                   'farmer_id', string="Plantations", domain=[('is_farmer', '=', True)])
 
