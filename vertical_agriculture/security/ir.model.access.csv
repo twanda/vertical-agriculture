@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_agri_plantation,access.agri.plantation,model_agri_plantation,,1,1,1,1
+access_geoengine.raster.layer,access.geoengine.raster.layer,base_geoengine.model_geoengine_raster_layer,,1,1,1,1
+access_geoengine.vector.layer,access.geoengine.vector.layer,base_geoengine.model_geoengine_vector_layer,,1,1,1,1
