@@ -34,9 +34,15 @@
         <field name="arch" type="xml">
             <form string="Plantations">
                 <header>
+                    <button name="%(vertical_agriculture.change_partner_action)d" string="Change Farmer"
+                                type="action" class="oe_highlight"
+                                context="{'default_plant_id': active_id}"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-leaf" type="object" name="action_view_plantations">
+                            <field string="Plantation" name="plantation_count" widget="statinfo"/>
+                        </button>
                     </div>
                      <div class="oe_title">
                         <h1>
@@ -62,8 +68,8 @@
                             <group>
                                 <group>
                                     <separator string="Farmers"/>
-                                        <field name="farmer_id" context="{'default_is_farmer': True}"/>
-                                        <field name="date_from"/>
+                                        <field name="farmer_id" context="{'default_is_farmer': True}" readonly="1"/>
+                                        <field name="date_from" readonly="1"/>
                                 </group>
                             </group>
                         </page>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<odoo>
+        <record id="crm_lead_lost_view_form" model="ir.ui.view">
+            <field name="name">change.partner.wizard.form</field>
+            <field name="model">change.partner.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Change Farmer">
+                    <group class="oe_title">
+                        <field name="farmer_id"/>
+                        <field name="date_from"/>
+                    </group>
+                    <footer>
+                        <button name="action_change_partner" string="Change" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="change_partner_action" model="ir.actions.act_window">
+            <field name="name">Lost Reason</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">change.partner.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="crm_lead_lost_view_form"/>
+            <field name="target">new</field>
+        </record>
+</odoo>

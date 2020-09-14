@@ -13,6 +13,12 @@
                     <page string="Agriculature" attrs="{'invisible': [('is_farmer', '!=', True)]}">
                     </page>
                 </xpath>
+                <button name="toggle_active" position="before">
+                    <button class="oe_stat_button" icon="fa-leaf" type="object" name="action_view_plantations"
+                            attrs="{'invisible': [('is_farmer', '=', False)]}">
+                        <field string="Plantation" name="plantation_count" widget="statinfo"/>
+                    </button>
+                </button>
             </field>
         </record>
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="agriculture_plantations_history_tree" model="ir.ui.view">
+        <field name="name">agri.plantation.history.tree</field>
+        <field name="model">agri.plantation.history</field>
+        <field name="arch" type="xml">
+            <tree string="Plantations" create="0" delete="0" edit="0">
+                <field name="plant_id"/>
+                <field name="farmer_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </tree>
+        </field>
+     </record>
+
+</odoo>

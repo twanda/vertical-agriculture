@@ -10,7 +10,9 @@
     'depends': ['base', 'mail', 'base_geoengine'],
     'data': [
         'security/ir.model.access.csv',
+        'wizard/change_partner_view.xml',
         'views/plantation.xml',
+        'views/plantation_history.xml',
         'views/partner.xml',
         'views/zip.xml',
     ],
