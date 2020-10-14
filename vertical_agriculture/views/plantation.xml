@@ -103,6 +103,7 @@
             </search>
         </field>
     </record>
+
     
     <record id="action_agriculture_plantations" model="ir.actions.act_window">
         <field name="name">Plantations</field>
