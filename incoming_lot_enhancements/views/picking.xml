@@ -6,9 +6,6 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='origin']" position="after">
-                <field name="operation_product_id" invisible="1"/>
-            </xpath>
             <xpath expr="//field[@name='move_line_ids_without_package']/tree/field[@name='owner_id']"
                    position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -22,8 +19,7 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='move_line_ids_without_package']" position="attributes">
-                <attribute name="context">{'default_product_id':operation_product_id, 'add_lot_number_name': 1}
-                </attribute>
+                <attribute name="context">{'add_lot_number_name': active_id}</attribute>
             </xpath>
         </field>
     </record>
