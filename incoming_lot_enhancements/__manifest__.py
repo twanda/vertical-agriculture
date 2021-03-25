@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Custom Trevi',
+    'name': 'Incoming Lot Enhancements',
     'version': '12.0.1.0.0',
     'category': '',
     'summary': '',
