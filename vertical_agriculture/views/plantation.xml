@@ -51,6 +51,7 @@
                     </div>
                     <group>
                         <group>
+                            <field name="plantation_code"/>
                             <field name="street"/>
                             <field name="street2"/>
                             <field name="city"/>
@@ -94,7 +95,7 @@
         <field name="model">agri.plantation</field>
         <field name="arch" type="xml">
             <search string="Search Plantations">
-                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="name" filter_domain="['|', ('name', 'ilike', self), ('plantation_code', 'ilike', self)]"/>
                 <separator />
                 <group expand="0" string="Group By">
                     <filter string="State" name="state_id" context="{'group_by':'state_id'}"/>

@@ -18,8 +18,11 @@
                    position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='move_line_ids_without_package']" position="before">
+                <field name="id" invisible="1"/>
+            </xpath>
             <xpath expr="//field[@name='move_line_ids_without_package']" position="attributes">
-                <attribute name="context">{'add_lot_number_name': active_id}</attribute>
+                <attribute name="context">{'add_lot_number_name': id}</attribute>
             </xpath>
         </field>
     </record>

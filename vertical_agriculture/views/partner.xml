@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="category_id" position="after">
                     <field name="is_farmer"/>
+                    <field name="farmer_code" attrs="{'readonly':[('farmer_code', '!=', False)]}" force_save="1"/>
                 </field>
                 <xpath expr="//notebook" position="inside">
                     <page string="Agriculature" attrs="{'invisible': [('is_farmer', '!=', True)]}">
@@ -31,9 +32,20 @@
             <field name="domain">[('is_farmer','=', True)]</field>
             <field name="context">{'default_is_farmer': True}</field>
             <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
-                Create your First Farmer !
-              </p>
+                <p class="o_view_nocontent_smiling_face">
+                    Create your First Farmer !
+                </p>
+            </field>
+        </record>
+
+        <record id="partner_shipper_filer" model="ir.ui.view">
+            <field name="name">partner.shipper.filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" filter_domain="['|','|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self),('farmer_code', 'ilike', self)]"/>
+                </field>
             </field>
         </record>
 

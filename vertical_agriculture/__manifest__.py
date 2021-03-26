@@ -7,7 +7,7 @@
     'description': """""",
     'maintainer': '',
     'support': '',
-    'depends': ['base', 'mail', 'purchase_stock', 'base_geoengine'],
+    'depends': ['base', 'mail', 'purchase_stock'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/change_partner_view.xml',
