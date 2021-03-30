@@ -6,12 +6,19 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <field name="category_id" position="after">
+                <xpath expr="//sheet/group/group/field[@name='type']" position="after">
                     <field name="is_farmer"/>
                     <field name="farmer_code" attrs="{'readonly':[('farmer_code', '!=', False)]}" force_save="1"/>
-                </field>
+                </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Agriculature" attrs="{'invisible': [('is_farmer', '!=', True)]}">
+                    <page string="Agriculture" attrs="{'invisible': [('is_farmer', '!=', True)]}">
+                      <field name="history_ids" mode="tree">
+                    		<tree string="Plantation History" editable="bottom">
+                    			<field name="plant_id"/>
+                    			<field name="date_from"/>
+                    			<field name="date_to"/>
+                    		</tree>
+                    	</field>
                     </page>
                 </xpath>
                 <button name="toggle_active" position="before">

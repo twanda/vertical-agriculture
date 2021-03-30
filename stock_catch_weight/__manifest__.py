@@ -9,7 +9,7 @@
     'license': 'AGPL-3',
     'author': '',
     'maintainer': '',
-    'depends': ['stock','stock_force_date_app'],
+    'depends': ['purchase_stock','stock_force_date_app'],
     'demo': [],
     'data': [
         'wizard/weight_correction.xml',

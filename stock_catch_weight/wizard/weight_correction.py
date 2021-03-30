@@ -163,11 +163,11 @@ class WeightCorrection(models.TransientModel):
         new_picking.action_confirm()
         new_picking.action_assign()
         
-        picking_backorder_id = self.env['stock.picking'].search([('backorder_id','=',picking.id),('state','not in',['done','cancel'])])
+        picking_backorder_id = self.env['stock.picking'].search([('backorder_id','=',picking.id),('state','not in',['done','cancel'])],limit=1)
         
         if weight_difference < 0:
             move_line_ids = picking.move_line_ids
-            backorder_mv_lines = []
+            quantities_to_add = {}
             
             for mv_line in new_picking.move_ids_without_package:
                 # for l_line in mv_line.move_line_ids:
@@ -175,6 +175,7 @@ class WeightCorrection(models.TransientModel):
                     # quantity = abs(qty / picking_weight * weight_difference)
                     # l_line.qty_done = quantity
                     
+                mv_line.update({'is_catch_weight_move' : True})
                 mv_list = []
                 for o_line in move_line_ids.filtered(lambda ml : ml.move_id  ==  mv_line.origin_returned_move_id):
                     
@@ -185,36 +186,20 @@ class WeightCorrection(models.TransientModel):
                     mv_list.append((0, 0, o_vals))
                     
                     if picking_backorder_id:
-                        back_vals = self._prepare_backorder_move_line_values(o_line, picking, picking_backorder_id, quantity)
-                        back_vals.update({'catch_parent_move_line_ref':catch_parent_move_line_ref})
-                        backorder_mv_lines.append((0, 0, back_vals))
+                        if o_line.product_id.id in quantities_to_add:
+                            quantities_to_add[o_line.product_id.id] += quantity
+                        else:
+                            quantities_to_add.update({o_line.product_id.id : quantity})
                         
                 mv_line.move_line_ids.unlink()
                 mv_line.move_line_ids = mv_list
                 
             if picking_backorder_id:
-                backorder_move_ids_without_package_list = []
-                for miwp_id in new_picking.move_ids_without_package:
-                    move_id_vals = {
-                        'product_id' : miwp_id.product_id.id,'product_uom' : miwp_id.product_uom.id,
-                        'product_uom_qty' : miwp_id.product_uom_qty,'name' : miwp_id.name,
-                        'location_id' : miwp_id.location_dest_id.id,'location_dest_id' : miwp_id.location_id.id,
-                        'procure_method': 'make_to_stock', 'picking_id' : picking_backorder_id.id,
-                        'catch_parent_move_id' : miwp_id.id,'picking_type_id' : picking.picking_type_id.id,
-                    }
-                    backorder_move_ids_without_package_list.append((0,0,move_id_vals))
-                    
-                picking_backorder_id.write({'move_ids_without_package':backorder_move_ids_without_package_list})
-                backorder_move_ids = picking_backorder_id.move_ids_without_package.sorted('id',reverse=True)
-                
-                for ml in range(0,len(backorder_move_ids_without_package_list)):
-                    current_move_id = backorder_move_ids[ml]
-                    parent_catch_move_id = current_move_id.catch_parent_move_id
-                    for pml in parent_catch_move_id.move_line_ids:
-                        for bmvl in backorder_mv_lines:
-                            if pml.catch_parent_move_line_ref == bmvl[2]['catch_parent_move_line_ref']:
-                                bmvl[2]['move_id'] = current_move_id.id                
-                picking_backorder_id.write({'move_line_ids':backorder_mv_lines})
+                for back_move in picking_backorder_id.move_ids_without_package:
+                    if back_move.product_id.id in quantities_to_add:
+                        back_move.product_uom_qty += quantities_to_add[back_move.product_id.id]
+            else:
+                picking._create_catch_weight_backorder(quantities_to_add,picking_weight,weight_difference)
         
         if weight_difference > 0:
             move_line_ids = picking.move_line_ids
