@@ -16,6 +16,7 @@
         'views/partner.xml',
         'views/picking_view.xml',
         'views/zip.xml',
+        'views/assets.xml',
     ],
     'website': '',
     'images': [],

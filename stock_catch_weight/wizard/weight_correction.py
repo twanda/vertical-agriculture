@@ -195,7 +195,8 @@ class WeightCorrection(models.TransientModel):
                         
                 mv_line.move_line_ids.unlink()
                 mv_line.move_line_ids = mv_list
-                
+            
+                    
             if picking_backorder_id:
                 for back_move in picking_backorder_id.move_ids_without_package:
                     if back_move.product_id.id in quantities_to_add:
@@ -215,6 +216,14 @@ class WeightCorrection(models.TransientModel):
                 mv_line.move_line_ids.unlink()
                 mv_line.move_line_ids = mv_list
                 
+                
+            for new_mv_line in new_picking.move_line_ids_without_package:
+                if not new_mv_line.lot_id and not new_mv_line.lot_name:
+                    lot_number = self.env.ref('incoming_lot_enhancements.sequence_operation_product').next_by_id()
+                    new_mv_line.write({'lot_name': lot_number})
+                elif new_mv_line.lot_id and not new_mv_line.lot_name:
+                    new_mv_line.write({'lot_name': new_mv_line.lot_id.name})
+                
             if picking_backorder_id:
                 total_backorder_qty = picking_backorder_id.move_ids_without_package.mapped('product_uom_qty')[0]
                 divided_qty = weight_difference / len(picking_backorder_id.move_ids_without_package)
@@ -225,6 +234,11 @@ class WeightCorrection(models.TransientModel):
                             mviwp_id.write({'product_uom_qty':mviwp_id.product_uom_qty - divided_qty})
                         else:
                             mviwp_id.write({'product_uom_qty':0.0})
+                            
+                    for mvliwp_id in picking_backorder_id.move_line_ids_without_package:
+                        if not mvliwp_id.lot_id and not mvliwp_id.lot_name:
+                            lot_number = self.env.ref('incoming_lot_enhancements.sequence_operation_product').next_by_id()
+                            mvliwp_id.write({'lot_name': lot_number})
                 else:
                     for mviwp_id in picking_backorder_id.move_ids_without_package:
                         mviwp_id.write({'product_uom_qty':0.0})

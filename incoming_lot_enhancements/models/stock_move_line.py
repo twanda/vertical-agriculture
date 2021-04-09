@@ -5,6 +5,7 @@ from odoo import models, api
 
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
+    
 
     @api.model
     def default_get(self, fields):
@@ -17,6 +18,14 @@ class StockMoveLine(models.Model):
                         rec['product_id'] = line.product_id.id
                         rec['location_dest_id'] = line.location_dest_id.id
                         break
+                
                 lot_number = self.env.ref('incoming_lot_enhancements.sequence_operation_product').next_by_id()
-                rec['lot_name'] = lot_number
+                if picking.state != 'done':
+                    rec['lot_name'] = lot_number
+                else:
+                    if rec['product_id']:
+                        lot_id = self.env['stock.production.lot'].sudo().create({'name' : lot_number,'product_id' : rec['product_id']})
+                        rec['lot_id'] = lot_id.id
+                    else:
+                        rec['lot_name'] = lot_number
         return rec
