@@ -11,7 +11,7 @@
                     <field name="farmer_code" attrs="{'readonly':[('farmer_code', '!=', False)]}" force_save="1"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Agriculture" attrs="{'invisible': [('is_farmer', '!=', True)]}">
+                    <page string="Plantations" attrs="{'invisible': [('is_farmer', '!=', True)]}">
                       <field name="history_ids" mode="tree">
                     		<tree string="Plantation History" editable="bottom">
                     			<field name="plant_id"/>

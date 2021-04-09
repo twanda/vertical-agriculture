@@ -133,7 +133,9 @@ class WeightCorrection(models.TransientModel):
             'state': 'draft',
             'origin': _("Catch Weight of %s") % picking.name,
             'location_id': location_id,
-            'location_dest_id': location_dest_id})
+            'location_dest_id': location_dest_id,
+            'force_date' : picking.force_date if picking.force_date else picking.scheduled_date
+            })
         new_picking.message_post_with_view('mail.message_origin_link',
                                            values={'self': new_picking, 'origin': picking},
                                            subtype_id=self.env.ref('mail.mt_note').id)
@@ -243,7 +245,9 @@ class WeightCorrection(models.TransientModel):
             'state': 'draft',
             'origin': _("Reverse Transfer for extra weight of %s") % backorder_id.name,
             'location_id': location_id,
-            'location_dest_id': location_dest_id})
+            'location_dest_id': location_dest_id,
+            'force_date' : picking.force_date if picking.force_date else picking.scheduled_date
+            })
         new_picking.message_post_with_view('mail.message_origin_link',
                                            values={'self': new_picking, 'origin': picking},
                                            subtype_id=self.env.ref('mail.mt_note').id)
