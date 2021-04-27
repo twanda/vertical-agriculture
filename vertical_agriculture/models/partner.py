@@ -9,11 +9,13 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     is_farmer = fields.Boolean(string="Is Farmer ?")
-    farmer_code = fields.Char('Farmer Code')
+    farmer_code = fields.Char('Farmer Code',copy=False)
     plantation_ids = fields.Many2many('agri.plantation', 'farmer_plantation_rel', 'farmer_id',
                                       'plant_id', string="Plantations")
     history_ids = fields.One2many('agri.plantation.history', 'farmer_id', string="History")
     plantation_count = fields.Char('Plantation Count', compute='_compute_plantation_count')
+    
+    _sql_constraints = [('farmer_code_uniq', 'unique (farmer_code)', "Farmer Code must be unique !")]
 
     def create_location(self, vals):
         values = {

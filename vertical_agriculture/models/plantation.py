@@ -2,6 +2,7 @@
 
 from odoo.osv import expression
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class AgriculturePlantation(models.Model):
@@ -24,7 +25,10 @@ class AgriculturePlantation(models.Model):
     location_id = fields.Many2one('stock.location', string="Location")
     history_ids = fields.One2many('agri.plantation.history', 'plant_id', string="History")
     plantation_count = fields.Char('Plantation Count', compute='_compute_plantation_count')
-    plantation_code = fields.Char('Plantation Code')
+    plantation_code = fields.Char('Plantation Code',related='name',store=True)
+    
+    _sql_constraints = [('plantation_code_uniq', 'unique (name)', "Plantation Code must be unique !")]
+    
 
     # def create_location(self, vals):
     #     values = {
@@ -58,6 +62,4 @@ class AgriculturePlantation(models.Model):
                 'domain': [('id', 'in', history_ids)],
             }
 
-
-
-
+    
