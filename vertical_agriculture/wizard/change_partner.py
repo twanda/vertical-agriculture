@@ -15,7 +15,7 @@ class ChangePartnerWizard(models.TransientModel):
         vals = {
             'plant_id': plant.id,
             'farmer_id': self.farmer_id.id,
-            'date_from': fields.Date.today()
+            'date_from': plant.date_from,
         }
         new_order = self.env['agri.plantation.history'].create(vals)
         plant.current_order_id = new_order.id

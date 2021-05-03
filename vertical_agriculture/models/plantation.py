@@ -57,7 +57,7 @@ class AgriculturePlantation(models.Model):
             return {
                 'name': 'History',
                 'type': 'ir.actions.act_window',
-                'view_mode': 'tree',
+                'view_mode': 'tree,form',
                 'res_model': 'agri.plantation.history',
                 'domain': [('id', 'in', history_ids)],
             }
